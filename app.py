@@ -1,5 +1,4 @@
 import streamlit as st
-import tensorflow as tf
 import numpy as np
 import cv2
 
@@ -11,19 +10,16 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
 
-/* FORCE EVERYTHING */
 html, body, .stApp, [data-testid="stAppViewContainer"] {
     background-color: #F6F3EE !important;
     color: #2E3D36 !important;
     font-family: 'DM Sans', sans-serif !important;
 }
 
-/* REMOVE DARK BLOCKS */
 section[data-testid="stSidebar"] {
     background-color: #F6F3EE !important;
 }
 
-/* HERO */
 .hero {
     text-align:center;
     padding-top:70px;
@@ -37,13 +33,11 @@ section[data-testid="stSidebar"] {
     margin-top:10px;
 }
 
-/* SECTION */
 .section {
     margin-top:80px;
     text-align:center;
 }
 
-/* CARD */
 .card {
     background:#FFFFFF !important;
     padding:25px;
@@ -58,8 +52,8 @@ section[data-testid="stSidebar"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- LOAD MODEL ----------
-model = tf.keras.models.load_model("model/cleft_model.h5")
+# ---------- REMOVE MODEL ----------
+model = None
 IMG_SIZE = 224
 
 # ---------- HERO ----------
@@ -72,7 +66,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.image("assets/hero.png", use_column_width=True)
+st.image("assets/hero.png", use_container_width=True)
 
 # ---------- FEATURES ----------
 st.markdown("<div class='section'><h2>Core Features</h2></div>", unsafe_allow_html=True)
@@ -151,17 +145,8 @@ with col1:
 
         st.image(img)
 
-        img = cv2.resize(img, (IMG_SIZE, IMG_SIZE)) / 255.0
-        img = np.reshape(img, (1, IMG_SIZE, IMG_SIZE, 3))
-
-        prediction = model.predict(img)[0][0]
-
-        st.write(f"Confidence: {prediction:.2f}")
-
-        if prediction > 0.8:
-            st.error("Cleft Lip Detected")
-        else:
-            st.success("No Cleft Detected")
+        # TEMP MESSAGE
+        st.info("Model not loaded in deployed version")
 
 with col2:
     st.image("assets/detection.png")
